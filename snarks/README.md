@@ -26,12 +26,17 @@ npm test
 | n      | Poseidon Commitment         |  Sync Committee (plonk)   | Sync Committee (groth-16)
 | -----  | -----------                 |  -----------              |  ----------- |
 | 1      | 0 ms                        |  _                        |  _           | 
-| 4      | 795 ms                      |  _                        |  869ms       |
-| 512    | _ ms                        |  _                        |  _           |
+| 4      | 795ms                       |  _                        |  869ms       |
+| 512    | _ ms                        |  _                        |  37s         |
 
 ## Current verification time results
 
-TODO
+| n      | Poseidon Commitment         |  Sync Committee (plonk)   | Sync Committee (groth-16)
+| -----  | -----------                 |  -----------              |  ----------- |
+| 1      | _ ms                        |  _                        |  _           | 
+| 4      | _ ms                        |  _                        |  0 ms        |
+| 512    | _ ms                        |  _                        |  950ms       |
+
 
 
 ## NOTES: 

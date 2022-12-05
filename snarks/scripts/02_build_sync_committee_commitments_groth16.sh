@@ -57,7 +57,7 @@ run() {
 
     echo "****GENERATING PROOF FOR SAMPLE INPUT****"
     start=`date +%s`
-    ~/rapidsnark/build/prover "$OUTPUT_DIR"/"$CIRCUIT_NAME"_p2.zkey "$OUTPUT_DIR"/witness.wtns "$OUTPUT_DIR"/"$CIRCUIT_NAME"_proof.json "$OUTPUT_DIR"/"$CIRCUIT_NAME"_public.json
+    snarkjs groth16 prove "$OUTPUT_DIR"/"$CIRCUIT_NAME"_p2.zkey "$OUTPUT_DIR"/witness.wtns "$OUTPUT_DIR"/"$CIRCUIT_NAME"_proof.json "$OUTPUT_DIR"/"$CIRCUIT_NAME"_public.json
     end=`date +%s`
     echo "DONE ($((end-start))s)"
 
@@ -69,7 +69,7 @@ run() {
 
     echo "****EXPORTING SOLIDITY SMART CONTRACT****"
     start=`date +%s`
-    npx snarkjs zkey export solidityverifier "$OUTPUT_DIR"/"$CIRCUIT_NAME"_p2.zkey verifier.sol
+    npx snarkjs zkey export solidityverifier "$OUTPUT_DIR"/"$CIRCUIT_NAME"_p2.zkey "$OUTPUT_DIR"/verifier.sol
     end=`date +%s`
     echo "DONE ($((end-start))s)"
 }
