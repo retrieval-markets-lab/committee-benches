@@ -1,10 +1,10 @@
 #!/bin/bash
 BUILD_DIR=../build
-CIRCUIT_NAME=test_sync_committee_committments
-INPUT_NAME=test_sync_committee_committments_512
+CIRCUIT_NAME=test_sync_committee_committments_512
+INPUT_NAME=input_sync_committee_committments_512
 TEST_DIR=../test
 OUTPUT_DIR="$BUILD_DIR"/"$CIRCUIT_NAME"_js
-PHASE1=$BUILD_DIR/pot26_final.ptau
+PHASE1=$BUILD_DIR/pot22_final.ptau
 
 
 run() {
@@ -33,37 +33,31 @@ run() {
 
     echo "****GENERATING ZKEY 0****"
     start=`date +%s`
-    npx --trace-gc --trace-gc-ignore-scavenger --max-old-space-size=2048000 --initial-old-space-size=2048000 --no-global-gc-scheduling --no-incremental-marking --max-semi-space-size=1024 --initial-heap-size=2048000 --expose-gc snarkjs zkey new "$BUILD_DIR"/"$CIRCUIT_NAME".r1cs "$PHASE1" "$OUTPUT_DIR"/"$CIRCUIT_NAME"_p1.zkey
-    end=`date +%s`
-    echo "DONE ($((end-start))s)"
-
-    echo "****CONTRIBUTE TO PHASE 2 CEREMONY****"
-    start=`date +%s`
-    npx snarkjs zkey contribute "$OUTPUT_DIR"/"$CIRCUIT_NAME"_p1.zkey "$OUTPUT_DIR"/"$CIRCUIT_NAME"_p2.zkey -n="First phase2 contribution" -e="some random text for entropy"
+    npx --trace-gc --trace-gc-ignore-scavenger --max-old-space-size=2048000 --initial-old-space-size=2048000 --no-global-gc-scheduling --no-incremental-marking --max-semi-space-size=1024 --initial-heap-size=2048000 --expose-gc snarkjs plonk setup "$BUILD_DIR"/"$CIRCUIT_NAME".r1cs "$PHASE1" "$OUTPUT_DIR"/"$CIRCUIT_NAME"_final_plonk.zkey
     end=`date +%s`
     echo "DONE ($((end-start))s)"
 
     echo "****VERIFYING FINAL ZKEY****"
     start=`date +%s`
-    npx --trace-gc --trace-gc-ignore-scavenger --max-old-space-size=2048000 --initial-old-space-size=2048000 --no-global-gc-scheduling --no-incremental-marking --max-semi-space-size=1024 --initial-heap-size=2048000 --expose-gc npx snarkjs zkey verify "$BUILD_DIR"/"$CIRCUIT_NAME".r1cs "$PHASE1" "$OUTPUT_DIR"/"$CIRCUIT_NAME"_p2.zkey
+    npx --trace-gc --trace-gc-ignore-scavenger --max-old-space-size=2048000 --initial-old-space-size=2048000 --no-global-gc-scheduling --no-incremental-marking --max-semi-space-size=1024 --initial-heap-size=2048000 --expose-gc npx snarkjs zkey verify "$BUILD_DIR"/"$CIRCUIT_NAME".r1cs "$PHASE1" "$OUTPUT_DIR"/"$CIRCUIT_NAME"_final_plonk.zkey
     end=`date +%s`
     echo "DONE ($((end-start))s)"
 
     echo "****EXPORTING VKEY****"
     start=`date +%s`
-    npx snarkjs zkey export verificationkey "$OUTPUT_DIR"/"$CIRCUIT_NAME"_p2.zkey "$OUTPUT_DIR"/"$CIRCUIT_NAME"_vkey.json
+    npx snarkjs zkey export verificationkey "$OUTPUT_DIR"/"$CIRCUIT_NAME"_final_plonk.zkey "$OUTPUT_DIR"/"$CIRCUIT_NAME"_vkey.json
     end=`date +%s`
     echo "DONE ($((end-start))s)"
 
     echo "****GENERATING PROOF FOR SAMPLE INPUT****"
     start=`date +%s`
-    ~/rapidsnark/build/prover "$OUTPUT_DIR"/"$CIRCUIT_NAME"_p2.zkey "$OUTPUT_DIR"/witness.wtns "$OUTPUT_DIR"/"$CIRCUIT_NAME"_proof.json "$OUTPUT_DIR"/"$CIRCUIT_NAME"_public.json
+    npx snarkjs plonk prove "$OUTPUT_DIR"/"$CIRCUIT_NAME"_final_plonk.zkey "$OUTPUT_DIR"/witness.wtns "$OUTPUT_DIR"/"$CIRCUIT_NAME"_proof.json "$OUTPUT_DIR"/"$CIRCUIT_NAME"_public.json
     end=`date +%s`
     echo "DONE ($((end-start))s)"
 
     echo "****VERIFYING PROOF FOR SAMPLE INPUT****"
     start=`date +%s`
-    npx snarkjs groth16 verify "$OUTPUT_DIR"/"$CIRCUIT_NAME"_vkey.json "$OUTPUT_DIR"/"$CIRCUIT_NAME"_public.json "$OUTPUT_DIR"/"$CIRCUIT_NAME"_proof.json
+    npx snarkjs plonk verify "$OUTPUT_DIR"/"$CIRCUIT_NAME"_vkey.json "$OUTPUT_DIR"/"$CIRCUIT_NAME"_public.json "$OUTPUT_DIR"/"$CIRCUIT_NAME"_proof.json
     end=`date +%s`
     echo "DONE ($((end-start))s)"
 

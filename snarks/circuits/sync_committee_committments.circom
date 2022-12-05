@@ -1,7 +1,7 @@
 pragma circom 2.0.3;
 
-include "../../node_modules/circomlib/circuits/bitify.circom";
-include "../../node_modules/circomlib/circuits/binsum.circom";
+include "../node_modules/circomlib/circuits/bitify.circom";
+include "../node_modules/circomlib/circuits/binsum.circom";
 include "./pubkey_poseidon.circom";
 
 
@@ -72,7 +72,6 @@ template AssertPubkeyBytesMatchesPubkeyXBigIntNoCheck(n, k, num_bytes) {
  */
 template SyncCommitteeCommittments(b, n, k) {
     signal input pubkeyHex[b][48];
-    signal input aggregatePubkeyHex[48];
     signal input pubkeys[b][2][k];
 
     signal output syncCommitteePoseidon;
