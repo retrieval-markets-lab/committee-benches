@@ -70,7 +70,7 @@ template AssertPubkeyBytesMatchesPubkeyXBigIntNoCheck(n, k, num_bytes) {
  * @input  pubkeys               The sync committee's BLS12-381 public keys in BigInt form
  * @output syncCommitteePoseidon THe Poseidon root of the sync committee (can make this input if verifying against a specific hash)
  */
-template SyncCommitteeCommittments(b, n, k) {
+template SyncCommitteeCommitments(b, n, k) {
     signal input pubkeyHex[b][48];
     signal input pubkeys[b][2][k];
 

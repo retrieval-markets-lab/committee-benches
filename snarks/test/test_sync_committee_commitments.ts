@@ -79,7 +79,7 @@ describe("sync-commitments", function () {
     fs.mkdirSync("tmp_output", { recursive: true });
     before(async function () {
         circuit = await wasm_tester(
-            path.join(__dirname, "circuits", "test_sync_committee_committments_4.circom"),
+            path.join(__dirname, "circuits", "test_sync_committee_commitments_4.circom"),
             options
         );
     });
@@ -107,7 +107,7 @@ describe("sync-commitments", function () {
 
 
 
-    var test_poseidon_committment = function (
+    var test_poseidon_commitment = function (
         test_case: [
             [[bigint, bigint], string],
             [[bigint, bigint], string],
@@ -154,7 +154,7 @@ describe("sync-commitments", function () {
         });
     };
 
-    test_cases.forEach(test_poseidon_committment);
+    test_cases.forEach(test_poseidon_commitment);
 })
 
 
@@ -167,7 +167,7 @@ describe("poseidon-commitments", function () {
     fs.mkdirSync("tmp_output", { recursive: true });
     before(async function () {
         circuit = await wasm_tester(
-            path.join(__dirname, "circuits", "test_poseidon_committment_4.circom"),
+            path.join(__dirname, "circuits", "test_poseidon_commitment_4.circom"),
             options
         );
     });
@@ -195,7 +195,7 @@ describe("poseidon-commitments", function () {
 
 
 
-    var test_poseidon_committment = function (
+    var test_poseidon_commitment = function (
         test_case: [
             [bigint, bigint],
             [bigint, bigint],
@@ -232,7 +232,7 @@ describe("poseidon-commitments", function () {
         });
     };
 
-    test_cases.forEach(test_poseidon_committment);
+    test_cases.forEach(test_poseidon_commitment);
 })
 
 

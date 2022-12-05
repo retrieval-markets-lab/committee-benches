@@ -1,7 +1,7 @@
 #!/bin/bash
 BUILD_DIR=../build
-CIRCUIT_NAME=test_sync_committee_committments_512
-INPUT_NAME=input_sync_committee_committments_512
+CIRCUIT_NAME=test_sync_committee_commitments_512
+INPUT_NAME=input_sync_committee_commitments_512
 TEST_DIR=../test
 OUTPUT_DIR="$BUILD_DIR"/"$CIRCUIT_NAME"_js
 PHASE1=$BUILD_DIR/pot22_final.ptau
